@@ -1397,9 +1397,9 @@ class CompileSketches:
         Keyword arguments:
         sketches_report -- dictionary containing data on the compiled sketches
         """
-        self.verbose_print("Creating sketch report file")
-
         sketches_report_path = absolute_path(path=self.sketches_report_path)
+
+        self.verbose_print("Creating sketch report file in ", sketches_report_path)
 
         # Create the report folder
         sketches_report_path.mkdir(parents=True, exist_ok=True)
