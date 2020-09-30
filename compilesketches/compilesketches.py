@@ -214,7 +214,8 @@ class CompileSketches:
             # only the first sketch compilation's warning count would reflect warnings from cached code
             compilation_result = self.compile_sketch(sketch_path=sketch, clean_build_cache=self.enable_warnings_report)
             if not compilation_result.success:
-                all_compilations_successful = False
+                if self.continue_on_error is False:
+                    all_compilations_successful = False
 
             # Store the size data for this sketch
             sketch_report_list.append(self.get_sketch_report(compilation_result=compilation_result))
