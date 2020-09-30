@@ -46,6 +46,7 @@ def main():
         verbose=os.environ["INPUT_VERBOSE"],
         github_token=os.environ["INPUT_GITHUB-TOKEN"],
         enable_deltas_report=os.environ["INPUT_ENABLE-DELTAS-REPORT"],
+        continue_on_error=os.environ["INPUT_CONTINUE-ON-ERROR"],
         enable_warnings_report=os.environ["INPUT_ENABLE-WARNINGS-REPORT"],
         sketches_report_path=os.environ["INPUT_SKETCHES-REPORT-PATH"]
     )
@@ -68,6 +69,8 @@ class CompileSketches:
     github_token -- GitHub access token
     enable_deltas_report -- set to "true" to cause the action to determine the change in memory usage
                                  ("true", "false")
+    continue_on_error -- set to "true" to cause the action to check against the expected results database and do not show a
+                                failure if a sketch fails but was expected to do so ("true", "false")
     enable_warnings_report -- set to "true" to cause the action to add compiler warning count to the sketches report
                                  ("true", "false")
     sketches_report_path -- folder to save the sketches report to
@@ -116,7 +119,7 @@ class CompileSketches:
     latest_release_indicator = "latest"
 
     def __init__(self, cli_version, fqbn_arg, platforms, libraries, sketch_paths, verbose, github_token,
-                 enable_deltas_report, enable_warnings_report, sketches_report_path):
+                 enable_deltas_report, continue_on_error, enable_warnings_report, sketches_report_path):
         """Process, store, and validate the action's inputs."""
         self.cli_version = cli_version
 
@@ -143,6 +146,12 @@ class CompileSketches:
         # The enable-deltas-report input has a default value so it should always be either True or False
         if self.enable_deltas_report is None:
             print("::error::Invalid value for enable-deltas-report input")
+            sys.exit(1)
+
+        self.continue_on_error = parse_boolean_input(boolean_input=continue_on_error)
+        # The continue-on-error input has a default value so it should always be either True or False
+        if self.continue_on_error is None:
+            print("::error::Invalid value for continue-on-error input")
             sys.exit(1)
 
         self.enable_warnings_report = parse_boolean_input(boolean_input=enable_warnings_report)

@@ -30,6 +30,7 @@ def get_compilesketches_object(
     github_api=unittest.mock.sentinel.github_api,
     deltas_base_ref="foodeltasbaseref",
     enable_deltas_report="false",
+    continue_on_error="false",
     enable_warnings_report="false",
     sketches_report_path="foo report_folder_name"
 ):
@@ -44,6 +45,7 @@ def get_compilesketches_object(
                                                                  verbose=verbose,
                                                                  github_token=github_token,
                                                                  enable_deltas_report=enable_deltas_report,
+                                                                 continue_on_error=continue_on_error,
                                                                  enable_warnings_report=enable_warnings_report,
                                                                  sketches_report_path=sketches_report_path)
 
@@ -93,6 +95,7 @@ def setup_action_inputs(monkeypatch):
         github_token = "FooGitHubToken"
         enable_size_deltas_report = "FooEnableSizeDeltasReport"
         enable_deltas_report = "FooEnableDeltasReport"
+        continue_on_error = "false"
         enable_warnings_report = "FooEnableWarningsReport"
         sketches_report_path = "FooSketchesReportPath"
         size_deltas_report_folder_name = "FooSizeDeltasReportFolderName"
@@ -230,6 +233,7 @@ def test_main(mocker, setup_action_inputs):
         verbose=setup_action_inputs.verbose,
         github_token=setup_action_inputs.github_token,
         enable_deltas_report=setup_action_inputs.enable_deltas_report,
+        continue_on_error=setup_action_inputs.continue_on_error,
         enable_warnings_report=setup_action_inputs.enable_warnings_report,
         sketches_report_path=setup_action_inputs.sketches_report_path
     )
@@ -250,6 +254,7 @@ def test_compilesketches():
     github_token = "fooGitHubToken"
     expected_deltas_base_ref = unittest.mock.sentinel.deltas_base_ref
     enable_deltas_report = "true"
+    continue_on_error = "false"
     enable_warnings_report = "true"
     sketches_report_path = "FooSketchesReportFolder"
 
@@ -265,6 +270,7 @@ def test_compilesketches():
             verbose=verbose,
             github_token=github_token,
             enable_deltas_report=enable_deltas_report,
+            continue_on_error=continue_on_error,
             enable_warnings_report=enable_warnings_report,
             sketches_report_path=sketches_report_path
         )
@@ -278,6 +284,7 @@ def test_compilesketches():
     assert compile_sketches.verbose is False
     assert compile_sketches.deltas_base_ref == expected_deltas_base_ref
     assert compile_sketches.enable_deltas_report is True
+    assert compile_sketches.continue_on_error is False
     assert compile_sketches.enable_warnings_report is True
     assert compile_sketches.sketches_report_path == pathlib.PurePath(sketches_report_path)
 
