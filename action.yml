@@ -28,8 +28,8 @@ inputs:
   enable-deltas-report:
     description: 'Set to true to cause the action to determine the change in memory usage and compiler warnings of the compiled sketches between the head and base refs of a PR and the immediate parent commit of a push'
     default: false
-  continue-on-error:
-    description: 'Set to true to cause the action to check the compilation results against the database of expected results'
+  allow-failures:
+    description: 'Set to true to cause the action to not provide a system error if one or more sketch compilation failed'
     default: false
   enable-warnings-report:
     description: 'Set to true to cause the action to record the compiler warning count for each sketch compilation in the sketches report'
